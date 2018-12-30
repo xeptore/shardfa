@@ -40,17 +40,23 @@ namespace dfa
                 dfa.Transitions.Add(t.Key, t.Value);
             }
 
-        }
-
-        static void Log(IDictionary<int, Dictionary<string, int>> d)
-        {
-            foreach (var item in d)
+            Console.WriteLine("string to check ($ to end):");
+            while (true)
             {
-                Console.WriteLine($"{item.Key}: ");
-                foreach (var entry in item.Value)
+                Console.Write("  =: ");
+                var input = Console.ReadLine();
+                if (input == "$") { Console.WriteLine("\nExiting..."); break; }
+                var res = "Rejected";
+                Console.ForegroundColor = ConsoleColor.Red;
+                if (dfa.Accepts(input, 0))
                 {
-                    Console.WriteLine($"    {entry.Key} : {entry.Value}");
-                }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    res = "Accepted";
+                } 
+                Console.WriteLine($"  => {res}");
+                Console.ResetColor();
+                Console.WriteLine();
+                Console.WriteLine();
             }
         }
     }
