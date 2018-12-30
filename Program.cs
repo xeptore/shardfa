@@ -8,7 +8,16 @@ namespace dfa
     {
         static void Main(string[] args)
         {
-            string[] lines = File.ReadAllLines("dfa.txt");
+            var filePath = Path.Join(Directory.GetCurrentDirectory(), "dfa.txt");
+            if (!File.Exists(filePath)) {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("could not find 'dfa.txt'");
+                Console.ResetColor();
+                Console.WriteLine("exiting...");
+                Environment.Exit(1);
+                return;
+            }
+            string[] lines = File.ReadAllLines(filePath);
             int.TryParse(lines[1], out var sn);
             int.TryParse(lines[2], out var tn);
             var ts = new Dictionary<int, Dictionary<string, int>>(sn);
@@ -45,7 +54,7 @@ namespace dfa
             {
                 Console.Write("  =: ");
                 var input = Console.ReadLine();
-                if (input == "$") { Console.WriteLine("\nExiting..."); break; }
+                if (input == "$") { Console.WriteLine("\nexiting..."); break; }
                 var res = "Rejected";
                 Console.ForegroundColor = ConsoleColor.Red;
                 if (dfa.Accepts(input, 0))
