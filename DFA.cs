@@ -16,5 +16,18 @@ namespace dfa
         public int Initial { get; set; }
         public IList<int> Acceptings { get; set; }
         public int States { get; set; }
+
+        public bool Accepts(string input, int initial = 0)
+        {
+            var s = initial;
+            foreach (var c in input)
+            {
+                if (!Transitions.TryGetValue(s, out var v) || !v.TryGetValue(c.ToString(), out s))
+                {
+                    return false;
+                }
+            }
+            return Acceptings.Contains(s);
+        }
     }
 }
