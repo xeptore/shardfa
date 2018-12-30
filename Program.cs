@@ -9,9 +9,8 @@ namespace dfa
         static void Main(string[] args)
         {
             string[] lines = File.ReadAllLines("dfa.txt");
-            var dfa = new DFA();
-            int.TryParse(lines[2], out var tn);
             int.TryParse(lines[1], out var sn);
+            int.TryParse(lines[2], out var tn);
             var ts = new Dictionary<int, Dictionary<string, int>>(sn);
             for (int i = 0; i < tn; i++)
             {
@@ -26,7 +25,21 @@ namespace dfa
                 }
             }
 
-            Log(ts);
+            var acceptingsLineParts = lines[lines.Length - 2].Split(" ");
+            int.TryParse(acceptingsLineParts[0], out var acceptingsCount);
+            var acceptings = new List<int>(acceptingsCount);
+            for (int i = 1; i < acceptingsLineParts.Length; i++)
+            {
+                int.TryParse(acceptingsLineParts[i], out var accepting);
+                acceptings.Add(accepting);
+            }
+
+            var dfa = new DFA(tn, sn, 0, acceptings);
+            foreach (var t in ts)
+            {
+                dfa.Transitions.Add(t.Key, t.Value);
+            }
+
         }
 
         static void Log(IDictionary<int, Dictionary<string, int>> d)
