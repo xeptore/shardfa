@@ -23,6 +23,6 @@ const targets = [
 
 for (const target of targets) {
     console.log(`building ${target}...`);
-    execSync(`dotnet publish -c Release -r ${target}`);
+    execSync(`dotnet publish -c Release -r ${target} -o build/${target}`);
     console.log(`building ${target} completed.`)
 }
