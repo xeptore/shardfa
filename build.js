@@ -1,4 +1,5 @@
 const { execSync } = require('child_process');
+const { copyFileSync } = require('fs');
 
 const targets = [
     "win7-x64",
@@ -25,4 +26,5 @@ for (const target of targets) {
     console.log(`building ${target}...`);
     execSync(`dotnet publish -c Release -r ${target} -o build/${target}`);
     console.log(`building ${target} completed.`)
+    copyFileSync('dfa.txt', `build/${target}/dfa.txt`);
 }
